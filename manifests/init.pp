@@ -105,6 +105,9 @@ class mysql {
     command  => "mysql -u root --password='' \
       -P ${mysql::config::port} -S ${mysql::config::socket} \
       -e 'grant all privileges on *.* to \'root\'@\'localhost\''",
+    creates => "${mysql::config::datadir}/.root_privileges_granted",
+    subscribe => Exec['wait-for-mysql'],
+    refreshonly => true,
     provider => shell
   }
 }
